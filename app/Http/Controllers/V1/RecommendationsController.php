@@ -26,13 +26,21 @@ class RecommendationsController extends BaseController
             $objectRequest = json_decode($request->getContent());
             $result = $this->recommendations->getWhoViewAlsoView($objectRequest);
 
-            if (! $result) {
-                throw new StoreResourceFailedException('Vertex not found'); 
-            }
-
             return response()->json(['data' => $result]);
         } catch (\Exception $e) {
             throw new StoreResourceFailedException($e->getMessage());
         }    
-    }   
+    }
+
+    public function getViewBought(Request $request)
+    {
+        try {
+            $objectRequest = json_decode($request->getContent());
+            $result = $this->recommendations->getWhoViewBought($objectRequest);
+
+            return response()->json(['data' => $result]);
+        } catch (\Exception $e) {
+            throw new StoreResourceFailedException($e->getMessage());
+        }
+    }
 }
