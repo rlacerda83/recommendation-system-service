@@ -5,12 +5,13 @@ This package work in conjunction with the titan graph database.
 ## Current Features  
 - Vertex management
 - Edges management 
-- Run any query
-- Displays all emails saved in database
+- Run any gremlin query
+- Get recommendations who view also view
+- Get recommendations who view bougth
 
 ## Upcoming Features
 - Colaborative filter recommendation 
-- Add filter by category in WhoViewAlsoView and WhoBougthAlsoBougth
+- Unit tests
 
 ## Documentation
 Please visit [Wiki documentation](https://github.com/rlacerda83/recommendation-system-service/wiki) for more information.
