@@ -16,6 +16,7 @@ This package work in conjunction with the titan graph database.
 
 ## Upcoming Features
 - Colaborative filter recommendation 
+- Add method to insert sample data
 - Unit tests
 
 ## Documentation
