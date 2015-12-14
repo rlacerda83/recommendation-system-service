@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Elocache\Observers\BaseObserver;
+use Illuminate\Database\Eloquent\Model;
 
 class Email extends Model
 {
@@ -16,6 +16,6 @@ class Email extends Model
     {
         parent::boot();
 
-        Self::observe(new BaseObserver);
+        Self::observe(new BaseObserver());
     }
 }

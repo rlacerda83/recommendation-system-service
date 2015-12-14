@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\V1;
 
-use Illuminate\Http\Request;
-use Dingo\Api\Routing\Helpers;
-use Dingo\Api\Exception\StoreResourceFailedException;
-use Dingo\Api\Exception\DeleteResourceFailedException;
-use Laravel\Lumen\Routing\Controller as BaseController;
 use App\Services\Gremlin\Edge;
+use Dingo\Api\Exception\StoreResourceFailedException;
+use Dingo\Api\Routing\Helpers;
+use Illuminate\Http\Request;
+use Laravel\Lumen\Routing\Controller as BaseController;
 
 class EdgesController extends BaseController
 {
@@ -43,24 +42,25 @@ class EdgesController extends BaseController
 
             $this->edge->findOrCreate(
                 $objectRequest->edge,
-                $objectRequest->vertexIn, 
+                $objectRequest->vertexIn,
                 $objectRequest->vertexOut
             );
 
             return $this->response->created();
         } catch (\Exception $e) {
             throw new StoreResourceFailedException($e->getMessage());
-        }     
+        }
     }
 
     /**
      * @param $id
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function get($id)
     {
         $result = $this->edge->findById($id);
-        if (! $result) {
+        if (!$result) {
             throw new StoreResourceFailedException('Edge not found');
         }
 
@@ -70,7 +70,7 @@ class EdgesController extends BaseController
     public function update(Request $request, $id)
     {
         $result = $this->edge->findById($id);
-        if (! $result) {
+        if (!$result) {
             throw new StoreResourceFailedException('Edge not found');
         }
 
@@ -83,7 +83,7 @@ class EdgesController extends BaseController
     public function removeProperty(Request $request, $id)
     {
         $result = $this->edge->findById($id);
-        if (! $result) {
+        if (!$result) {
             throw new StoreResourceFailedException('Edge not found');
         }
 
@@ -95,23 +95,24 @@ class EdgesController extends BaseController
 
     /**
      * @param $id
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function delete($id)
     {
         try {
             $result = $this->edge->deleteById($id);
-            if (! $result) {
+            if (!$result) {
                 return $this->response->noContent();
-            }    
+            }
         } catch (\Exception $e) {
             throw new StoreResourceFailedException($e->getMessage());
-        }      
+        }
     }
 
     private function validRequest($objectRequest)
     {
-        if (! $objectRequest) {
+        if (!$objectRequest) {
             throw new StoreResourceFailedException('Invalid request');
         }
     }
