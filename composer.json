@@ -16,7 +16,7 @@
         "vlucas/phpdotenv": "~1.0",
         "jeremeamia/superclosure": "~2.0",
         "dingo/api": "@dev",
-        "rlacerda83/lumen-elocache": "@dev",
+        "rlacerda83/lumen-elocache": "dev-master@dev",
         "brightzone/gremlin-php": "*"
     },
     "require-dev": {
