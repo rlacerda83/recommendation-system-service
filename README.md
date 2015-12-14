@@ -1,3 +1,8 @@
+[![License](https://img.shields.io/packagist/l/rlacerda83/recommendation-system-service.svg?style=flat-square)](https://packagist.org/packages/rlacerda83/recommendation-system-service)
+![Development Version](https://img.shields.io/packagist/vpre/rlacerda83/recommendation-system-service.svg?style=flat-square)
+![Monthly Installs](https://img.shields.io/packagist/dm/rlacerda83/recommendation-system-service.svg?style=flat-square)
+[![StyleCI](https://styleci.io/repos/41004414/shield)](https://styleci.io/repos/41004414)
+
 # Microservice for graph database manipulation
 This package is a microservice to facilitate manipulation graph databases and has as main objective the recommendation of products.
 This package work in conjunction with the titan graph database.
