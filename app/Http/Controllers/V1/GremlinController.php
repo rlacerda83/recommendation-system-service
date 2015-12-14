@@ -78,7 +78,6 @@ class GremlinController extends BaseController
 // p4.addEdge('belong', c2)
 // p5.addEdge('belong', c2)
 // ";
-
             $result = $this->gremlin->executeQuery($objectRequest->query);
             return response()->json(['data' => $result]);
         } catch (\Exception $e) {
