@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers\V1;
 
-use Illuminate\Http\Request;
-use Dingo\Api\Routing\Helpers;
-use Dingo\Api\Exception\StoreResourceFailedException;
-use Dingo\Api\Exception\DeleteResourceFailedException;
-use Laravel\Lumen\Routing\Controller as BaseController;
-use App\Repositories\Eloquent\EmailRepository;
-use App\Services\Gremlin\Connection;
 use App\Services\Gremlin\Generic;
+use Dingo\Api\Exception\StoreResourceFailedException;
+use Dingo\Api\Routing\Helpers;
+use Illuminate\Http\Request;
+use Laravel\Lumen\Routing\Controller as BaseController;
 
 class GremlinController extends BaseController
 {
@@ -42,7 +39,7 @@ class GremlinController extends BaseController
             $objectRequest = json_decode($request->getContent());
 
             if (!$objectRequest->query) {
-                throw new StoreResourceFailedException('Invalid query'); 
+                throw new StoreResourceFailedException('Invalid query');
             }
 
 //              $objectRequest->query = "
@@ -79,9 +76,10 @@ class GremlinController extends BaseController
 // p5.addEdge('belong', c2)
 // ";
             $result = $this->gremlin->executeQuery($objectRequest->query);
+
             return response()->json(['data' => $result]);
         } catch (\Exception $e) {
             throw new StoreResourceFailedException($e->getMessage());
-        }    
-    }   
+        }
+    }
 }

@@ -2,9 +2,9 @@
 
 namespace App\Services\Authentication;
 
-use Illuminate\Http\Request;
-use Dingo\Api\Routing\Route;
 use Dingo\Api\Auth\Provider\Authorization;
+use Dingo\Api\Routing\Route;
+use Illuminate\Http\Request;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class StaticAuthentication extends Authorization

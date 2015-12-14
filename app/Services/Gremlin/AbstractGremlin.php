@@ -2,13 +2,10 @@
 
 namespace App\Services\Gremlin;
 
-use App\Services\Gremlin\Connection;
-use App\Services\Gremlin\ParserProperties;
 use Brightzone\GremlinDriver\ServerException;
 
 abstract class AbstractGremlin
 {
-
     const OBJECT_TYPE_VERTEX = 'V';
     const OBJECT_TYPE_EDGE = 'E';
 
@@ -45,7 +42,7 @@ abstract class AbstractGremlin
 
         $itens['metadata'] = [
             'total' => $resultTotal[0],
-            'page' => $page
+            'page'  => $page,
         ];
 
         return $itens;
@@ -64,13 +61,14 @@ abstract class AbstractGremlin
     {
         try {
             $vertex = $this->findById($id);
-            if (! $vertex) {
-                throw new \Exception('Register not found');     
+            if (!$vertex) {
+                throw new \Exception('Register not found');
             }
+
             return $this->connection->send("g.{$this->type}('{$id}').drop()");
         } catch (ServerException $e) {
             $this->handleException($e);
-        }   
+        }
     }
 
     public function removePropertiesById($id, $properties)
@@ -82,6 +80,7 @@ abstract class AbstractGremlin
             $query .= "{$parserProperties} };";
 
             $this->prepareQuery(false, $properties);
+
             return $this->executeQuery($query);
         } catch (ServerException $e) {
             $this->handleException($e);
@@ -95,18 +94,19 @@ abstract class AbstractGremlin
 
             $updateProperties = ParserProperties::parsePropertiesToUpdate($properties);
             $query .= $updateProperties;
-            
+
             $this->prepareQuery(false, $properties);
+
             return $this->executeQuery($query);
         } catch (ServerException $e) {
             $this->handleException($e);
-        }      
+        }
     }
 
     public function clearData()
     {
         try {
-           $this->connection->send("g.V().drop()");
+            $this->connection->send('g.V().drop()');
         } catch (ServerException $e) {
             $this->handleException($e);
         }
@@ -118,21 +118,21 @@ abstract class AbstractGremlin
             return false;
         }
 
-        throw $e;   
+        throw $e;
     }
 
     protected function handleType($type)
     {
-        return strtoupper($type) == self::OBJECT_TYPE_EDGE ? self::OBJECT_TYPE_EDGE : self::OBJECT_TYPE_VERTEX; 
+        return strtoupper($type) == self::OBJECT_TYPE_EDGE ? self::OBJECT_TYPE_EDGE : self::OBJECT_TYPE_VERTEX;
     }
 
     public function createIndex($name)
     {
-        if (! $name) {
+        if (!$name) {
             return false;
         }
 
-        return $this->connection->send("g.createKeyIndex('name', Vertex.class)");  
+        return $this->connection->send("g.createKeyIndex('name', Vertex.class)");
     }
 
     public function applyBinds($arrayBinds)
@@ -145,7 +145,7 @@ abstract class AbstractGremlin
     protected function prepareQuery($label, $properties)
     {
         $arrayBinds = ParserProperties::parseBindValues($label, $properties, $this->getSufix());
-        $this->applyBinds($arrayBinds);     
+        $this->applyBinds($arrayBinds);
     }
 
     public function executeQuery($query)

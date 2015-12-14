@@ -15,7 +15,7 @@ $api = app('Dingo\Api\Routing\Router');
 
 $api->version('v1', ['middleware' => 'api.auth', 'namespace' => 'App\Http\Controllers\V1'], function ($api) {
 
-	// EDGES
+    // EDGES
     $api->get('edges/', 'EdgesController@index');
 
     $api->get('edges/{id}', 'EdgesController@get');
@@ -28,7 +28,7 @@ $api->version('v1', ['middleware' => 'api.auth', 'namespace' => 'App\Http\Contro
 
     $api->put('edges/{id}/remove-property', 'EdgesController@removeProperty');
 
-	//VERTEX
+    //VERTEX
     $api->get('vertex/', 'VertexController@index');
 
     $api->get('vertex/{id}', 'VertexController@get');
@@ -41,7 +41,7 @@ $api->version('v1', ['middleware' => 'api.auth', 'namespace' => 'App\Http\Contro
 
     $api->put('vertex/{id}/remove-property', 'VertexController@removeProperty');
 
-    //GENERIC 
+    //GENERIC
     $api->get('gremlin/clear-data', 'GremlinController@clearData');
 
     $api->post('gremlin/run-query/', 'GremlinController@runQuery');

@@ -4,8 +4,7 @@ namespace App\Services\Gremlin;
 
 class Edge extends AbstractGremlin
 {
-
-    public function getType() 
+    public function getType()
     {
         return 'E';
     }
@@ -35,7 +34,7 @@ class Edge extends AbstractGremlin
             $query .= ",{$edgeProperties});";
             $this->prepareQuery(false, $edge->properties);
         } else {
-            $query .=  ");";
+            $query .=  ');';
         }
 
         //die($query);

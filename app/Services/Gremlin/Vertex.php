@@ -2,19 +2,16 @@
 
 namespace App\Services\Gremlin;
 
-use App\Services\Gremlin\ParserProperties;
-
 class Vertex extends AbstractGremlin
 {
-
-    public function getType() 
+    public function getType()
     {
         return 'V';
     }
 
-    public function insert($label = false, $properties, $sendCommand = false) 
-    {         
-        $query = "g.addV(";
+    public function insert($label = false, $properties, $sendCommand = false)
+    {
+        $query = 'g.addV(';
         $sufix = $this->getSufix();
         if ($label) {
             $query .= "T.label,BIND_LABEL{$sufix}";
@@ -25,7 +22,8 @@ class Vertex extends AbstractGremlin
 
         if ($sendCommand) {
             $this->prepareQuery($label, $properties);
-            return $this->executeQuery($query); 
+
+            return $this->executeQuery($query);
         }
 
         return $query;
@@ -43,27 +41,29 @@ class Vertex extends AbstractGremlin
 
         if ($sendCommand) {
             $this->prepareQuery($label, $properties);
-            return $this->executeQuery($query); 
+
+            return $this->executeQuery($query);
         }
 
-        return $query; 
+        return $query;
     }
 
     public function findBy($label = false, $properties, $sendCommand = false)
     {
         $sufix = $this->getSufix();
-        $query = "g.V()";
+        $query = 'g.V()';
 
-        if ($label) { 
+        if ($label) {
             $query .= ".has(label,BIND_LABEL{$sufix})";
-        } 
+        }
 
         $parserProperties = ParserProperties::parsePropertiesToFindBy($properties, $sufix);
         $query .= "{$parserProperties}";
 
         if ($sendCommand) {
             $this->prepareQuery($label, $properties);
-            return $this->executeQuery($query); 
+
+            return $this->executeQuery($query);
         }
 
         return $query;

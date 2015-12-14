@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\V1;
 
-use Illuminate\Http\Request;
-use Dingo\Api\Routing\Helpers;
-use Dingo\Api\Exception\StoreResourceFailedException;
-use Dingo\Api\Exception\DeleteResourceFailedException;
-use Laravel\Lumen\Routing\Controller as BaseController;
 use App\Services\Gremlin\ProductRecommendation;
+use Dingo\Api\Exception\StoreResourceFailedException;
+use Dingo\Api\Routing\Helpers;
+use Illuminate\Http\Request;
+use Laravel\Lumen\Routing\Controller as BaseController;
 
 class RecommendationsController extends BaseController
 {
@@ -29,7 +28,7 @@ class RecommendationsController extends BaseController
             return response()->json(['data' => $result]);
         } catch (\Exception $e) {
             throw new StoreResourceFailedException($e->getMessage());
-        }    
+        }
     }
 
     public function getViewBought(Request $request)
