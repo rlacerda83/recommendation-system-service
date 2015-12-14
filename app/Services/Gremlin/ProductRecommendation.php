@@ -4,18 +4,18 @@ namespace App\Services\Gremlin;
 
 class ProductRecommendation extends AbstractGremlin
 {
-
     const DEFAULT_LIMIT = 5;
 
-    public function getType() 
+    public function getType()
     {
-        return  null;
+        return;
     }
 
-	public function getWhoViewAlsoView($objRequest) 
+    public function getWhoViewAlsoView($objRequest)
     {
         $query = $this->buildBaseWhoAlsoQuery('view', $objRequest);
         $this->prepareQuery($objRequest->product->label, $objRequest->product->properties);
+
         return $this->executeQuery($query);
     }
 
@@ -23,6 +23,7 @@ class ProductRecommendation extends AbstractGremlin
     {
         $query = $this->buildBaseWhoAlsoQuery('bougth', $objRequest);
         $this->prepareQuery($objRequest->product->label, $objRequest->product->properties);
+
         return $this->executeQuery($query);
     }
 
@@ -31,10 +32,10 @@ class ProductRecommendation extends AbstractGremlin
         $vertex = new Vertex();
         $query = $vertex->findBy($objRequest->product->label, $objRequest->product->properties);
 
-        $queryCategory = ").";
+        $queryCategory = ').';
         if (isset($objRequest->category) && strlen($objRequest->category)) {
             $queryCategory = ",__.as('pv').out('belong').has('id', ID_CATEGORY).as('c')).";
-            $this->connection->message->bindValue("ID_CATEGORY", "{$objRequest->category}");
+            $this->connection->message->bindValue('ID_CATEGORY', "{$objRequest->category}");
         }
 
         $limit = isset($objRequest->limit) ? (int) $objRequest->limit : self::DEFAULT_LIMIT;

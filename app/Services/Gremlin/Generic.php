@@ -4,9 +4,8 @@ namespace App\Services\Gremlin;
 
 class Generic extends AbstractGremlin
 {
-	public function getType() 
+    public function getType()
     {
-        return null;
+        return;
     }
-
 }

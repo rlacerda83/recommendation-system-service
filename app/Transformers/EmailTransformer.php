@@ -8,6 +8,7 @@ class EmailTransformer extends TransformerAbstract
 {
     /**
      * @param $email
+     *
      * @return array
      */
     public function transform($email)

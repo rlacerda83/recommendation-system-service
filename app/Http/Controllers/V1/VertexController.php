@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\V1;
 
-use Illuminate\Http\Request;
-use Dingo\Api\Routing\Helpers;
-use Dingo\Api\Exception\StoreResourceFailedException;
-use Dingo\Api\Exception\DeleteResourceFailedException;
-use Laravel\Lumen\Routing\Controller as BaseController;
-use App\Repositories\Eloquent\EmailRepository;
 use App\Services\Gremlin\Connection;
 use App\Services\Gremlin\Vertex;
+use Dingo\Api\Exception\StoreResourceFailedException;
+use Dingo\Api\Routing\Helpers;
+use Illuminate\Http\Request;
+use Laravel\Lumen\Routing\Controller as BaseController;
 
 class VertexController extends BaseController
 {
@@ -44,11 +42,12 @@ class VertexController extends BaseController
             //$originalCount = $db->send('g.V().count()');
             //$teste = $db->send('g.addV("label", "user", "name","Rodrigo", "idUser", "1")');
             $connection->close();
-            print_r($result); die('--');
+            print_r($result);
+            die('--');
 
             $paginator = $this->repository->findAllPaginate($request);
 
-            return $this->response->paginator($paginator, new EmailTransformer);
+            return $this->response->paginator($paginator, new EmailTransformer());
         } catch (QueryParserException $e) {
             throw new StoreResourceFailedException($e->getMessage(), $e->getFields());
         }
@@ -65,18 +64,19 @@ class VertexController extends BaseController
             return $this->response->created();
         } catch (\Exception $e) {
             throw new StoreResourceFailedException($e->getMessage());
-        }    
+        }
     }
 
     /**
      * @param $id
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function get($id)
     {
         $result = $this->vertex->findById($id);
-        if (! $result) {
-            throw new StoreResourceFailedException('Vertex not found'); 
+        if (!$result) {
+            throw new StoreResourceFailedException('Vertex not found');
         }
 
         return response()->json(['data' => $result]);
@@ -85,8 +85,8 @@ class VertexController extends BaseController
     public function update(Request $request, $id)
     {
         $result = $this->vertex->findById($id);
-        if (! $result) {
-            throw new StoreResourceFailedException('Vertex not found'); 
+        if (!$result) {
+            throw new StoreResourceFailedException('Vertex not found');
         }
 
         $objectRequest = json_decode($request->getContent());
@@ -99,8 +99,8 @@ class VertexController extends BaseController
     public function removeProperty(Request $request, $id)
     {
         $result = $this->vertex->findById($id);
-        if (! $result) {
-            throw new StoreResourceFailedException('Vertex not found'); 
+        if (!$result) {
+            throw new StoreResourceFailedException('Vertex not found');
         }
 
         $objectRequest = json_decode($request->getContent());
@@ -113,23 +113,24 @@ class VertexController extends BaseController
 
     /**
      * @param $id
+     *
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function delete($id)
     {
         try {
             $result = $this->vertex->deleteById($id);
-            if (! $result) {
+            if (!$result) {
                 return $this->response->noContent();
-            }    
+            }
         } catch (\Exception $e) {
             throw new StoreResourceFailedException($e->getMessage());
-        }      
+        }
     }
 
     private function validRequest($objectRequest)
     {
-        if (! $objectRequest) {
+        if (!$objectRequest) {
             throw new StoreResourceFailedException('Invalid request');
         }
     }

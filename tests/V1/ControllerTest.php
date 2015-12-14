@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Foundation\Testing\DatabaseTransactions;
 use App\Models\Email;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 
 class ControllerTest extends TestCase
 {
@@ -19,7 +19,7 @@ class ControllerTest extends TestCase
         $this->key = 'key:'.env('APP_KEY');
         $this->serverParams = [
             'HTTP_ACCEPT'      => 'application/vnd.app.v1+json',
-            'HTTP_API_TOKEN' => $this->key,
+            'HTTP_API_TOKEN'   => $this->key,
         ];
     }
 
@@ -121,23 +121,23 @@ class ControllerTest extends TestCase
     {
         return [
             [[
-                'to' => 'r.lacerda83@gmail.com',
-                'subject' => 'Test',
-                'html' => '<html><b>OK</b></html>',
-                'save' => false,
+                'to'        => 'r.lacerda83@gmail.com',
+                'subject'   => 'Test',
+                'html'      => '<html><b>OK</b></html>',
+                'save'      => false,
                 'send_type' => 'NOW',
             ], 201],
             [[
-                'to' => 'r.lacerda83@gmail.com',
-                'subject' => 'Test',
-                'html' => '<html><b>OK</b></html>',
-                'save' => true,
+                'to'        => 'r.lacerda83@gmail.com',
+                'subject'   => 'Test',
+                'html'      => '<html><b>OK</b></html>',
+                'save'      => true,
                 'send_type' => 'QUEUE',
             ], 201],
             [[
-                'to' => 'r.lacerda83@gmail.com',
-                'subject' => 'Test',
-                'save' => false,
+                'to'        => 'r.lacerda83@gmail.com',
+                'subject'   => 'Test',
+                'save'      => false,
                 'send_type' => 'QUEUE',
             ], 422],
         ];
@@ -146,10 +146,10 @@ class ControllerTest extends TestCase
     protected function generateEmail()
     {
         $data = [
-            'to' => 'r.lacerda83@gmail.com',
+            'to'        => 'r.lacerda83@gmail.com',
             'send_type' => 'queue',
-            'subject' => 'Test',
-            'html' => '<html></html>',
+            'subject'   => 'Test',
+            'html'      => '<html></html>',
         ];
 
         return Email::create($data);
