@@ -34,17 +34,16 @@ class ProductRecommendation extends AbstractGremlin
 
         $queryCategory = ').';
         if (isset($objRequest->category) && strlen($objRequest->category)) {
-            $queryCategory = ",__.as('pv').out('belong').has('id', ID_CATEGORY).as('c')).";
+            $queryCategory = "filter(out('belong').has('id',ID_CATEGORY)).";
             $this->connection->message->bindValue('ID_CATEGORY', "{$objRequest->category}");
         }
 
         $limit = isset($objRequest->limit) ? (int) $objRequest->limit : self::DEFAULT_LIMIT;
-        $query .= ".match(
-            __.as('p').in('{$type}').as('user'),
-            __.as('user').out('view').as('pv')
+
+        $query .= ".as('p').in('view').
+            out('view').where(neq('p')).
             {$queryCategory}
-            where('p', neq('pv')).
-            select('pv').groupCount().by('id').order(local).by(valueDecr).limit(local,{$limit});";
+            groupCount().by('id').order(local).by(valueDecr).limit(local,{$limit});";
 
         return $query;
     }
