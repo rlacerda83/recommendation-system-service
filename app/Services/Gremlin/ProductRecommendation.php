@@ -32,7 +32,7 @@ class ProductRecommendation extends AbstractGremlin
         $vertex = new Vertex();
         $query = $vertex->findBy($objRequest->product->label, $objRequest->product->properties);
 
-        $queryCategory = ').';
+        $queryCategory = '';
         if (isset($objRequest->category) && strlen($objRequest->category)) {
             $queryCategory = "filter(out('belong').has('id',ID_CATEGORY)).";
             $this->connection->message->bindValue('ID_CATEGORY', "{$objRequest->category}");
@@ -43,7 +43,7 @@ class ProductRecommendation extends AbstractGremlin
         $query .= ".as('p').in('view').
             out('view').where(neq('p')).
             {$queryCategory}
-            groupCount().by('id').order(local).by(valueDecr).limit(local,{$limit});";
+            groupCount().by('id').limit(local,{$limit});";
 
         return $query;
     }
