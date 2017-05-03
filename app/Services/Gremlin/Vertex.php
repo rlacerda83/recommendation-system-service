@@ -36,8 +36,6 @@ class Vertex extends AbstractGremlin
 
         $sufix = $this->getSufix();
         $query = "v{$sufix} = {$commandFind}.tryNext().orElseGet{{$commandInsert}.next()};";
-        // $query = "v{$sufix} = {$commandFind};
-        //           v{$sufix} = v{$sufix}.hasNext() ? v{$sufix}.next() : {$commandInsert}.next();";
 
         if ($sendCommand) {
             $this->prepareQuery($label, $properties);

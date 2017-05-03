@@ -11,6 +11,10 @@ class ProductRecommendation extends AbstractGremlin
         return;
     }
 
+    /**
+     * @param $objRequest
+     * @return mixed
+     */
     public function getWhoViewAlsoView($objRequest)
     {
         $query = $this->buildBaseWhoAlsoQuery('view', $objRequest);
@@ -19,14 +23,23 @@ class ProductRecommendation extends AbstractGremlin
         return $this->executeQuery($query);
     }
 
+    /**
+     * @param $objRequest
+     * @return mixed
+     */
     public function getWhoViewBought($objRequest)
     {
-        $query = $this->buildBaseWhoAlsoQuery('bougth', $objRequest);
+        $query = $this->buildBaseWhoAlsoQuery('buy', $objRequest);
         $this->prepareQuery($objRequest->product->label, $objRequest->product->properties);
 
         return $this->executeQuery($query);
     }
 
+    /**
+     * @param $type
+     * @param $objRequest
+     * @return string
+     */
     protected function buildBaseWhoAlsoQuery($type, $objRequest)
     {
         $vertex = new Vertex();
@@ -34,16 +47,19 @@ class ProductRecommendation extends AbstractGremlin
 
         $queryCategory = '';
         if (isset($objRequest->category) && strlen($objRequest->category)) {
-            $queryCategory = "filter(out('belong').has('id',ID_CATEGORY)).";
+            $queryCategory = "where(out('belong').has('categoryId',ID_CATEGORY)).";
             $this->connection->message->bindValue('ID_CATEGORY', "{$objRequest->category}");
         }
 
         $limit = isset($objRequest->limit) ? (int) $objRequest->limit : self::DEFAULT_LIMIT;
 
-        $query .= ".as('p').in('view').
-            out('view').where(neq('p')).
-            {$queryCategory}
-            groupCount().by('id').limit(local,{$limit});";
+        $query .= sprintf(".as('p').in('view').
+            out('view').barrier().where(neq('p')).
+            %s
+            groupCount().by('productId').order(local).by(values, decr).limit(local, %s);",
+            $queryCategory,
+            $limit
+        );
 
         return $query;
     }

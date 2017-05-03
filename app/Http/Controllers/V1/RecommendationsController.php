@@ -19,25 +19,33 @@ class RecommendationsController extends BaseController
         $this->recommendations = $recommendations;
     }
 
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function getViewAlsoView(Request $request)
     {
         try {
             $objectRequest = json_decode($request->getContent());
             $result = $this->recommendations->getWhoViewAlsoView($objectRequest);
 
-            return response()->json(['data' => $result]);
+            return response()->json(['data' => array_shift($result)]);
         } catch (\Exception $e) {
             throw new StoreResourceFailedException($e->getMessage());
         }
     }
 
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function getViewBought(Request $request)
     {
         try {
             $objectRequest = json_decode($request->getContent());
             $result = $this->recommendations->getWhoViewBought($objectRequest);
 
-            return response()->json(['data' => $result]);
+            return response()->json(['data' => array_shift($result)]);
         } catch (\Exception $e) {
             throw new StoreResourceFailedException($e->getMessage());
         }
