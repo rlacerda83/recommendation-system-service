@@ -63,6 +63,8 @@ app('Dingo\Api\Auth\Auth')->extend('static', function ($app) {
     return new App\Services\Authentication\StaticAuthentication($app['auth']);
 });
 
+$app->register(Illuminate\Redis\RedisServiceProvider::class);
+
 app('Dingo\Api\Transformer\Factory')->register('Email', 'EmailTransformer');
 
 /*

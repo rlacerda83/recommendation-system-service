@@ -37,8 +37,6 @@ class Edge extends AbstractGremlin
             $query .=  ');';
         }
 
-        //die($query);
-
         return $this->executeQuery($query);
     }
 }
