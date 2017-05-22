@@ -1,8 +1,12 @@
 <?php
 
-namespace App\Services\Gremlin;
+namespace App\Services\Gremlin\ProductRecommendation;
 
-class ProductRecommendation extends AbstractGremlin
+use App\Services\Gremlin\AbstractGremlin;
+use App\Services\Gremlin\ProductRecommendationInterface;
+use App\Services\Gremlin\Vertex;
+
+class GremlinAdapter extends AbstractGremlin implements ProductRecommendationInterface
 {
     const DEFAULT_LIMIT = 5;
 

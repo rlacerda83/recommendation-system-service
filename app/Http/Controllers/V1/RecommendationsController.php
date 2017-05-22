@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\V1;
 
-use App\Services\Gremlin\ProductRecommendation;
+use App\Services\Gremlin\ProductRecommendation\RedisAdapter;
 use Carbon\Carbon;
 use Dingo\Api\Exception\StoreResourceFailedException;
 use Dingo\Api\Routing\Helpers;
@@ -13,9 +13,12 @@ class RecommendationsController extends BaseController
 {
     use Helpers;
 
+    /**
+     * @var RedisAdapter
+     */
     protected $recommendations;
 
-    public function __construct(ProductRecommendation $recommendations)
+    public function __construct(RedisAdapter $recommendations)
     {
         $this->recommendations = $recommendations;
     }
@@ -27,10 +30,18 @@ class RecommendationsController extends BaseController
     public function getViewAlsoView(Request $request)
     {
         try {
-            $objectRequest = json_decode($request->getContent());
-            $result = $this->recommendations->getWhoViewAlsoView($objectRequest);
+            $params = $request->all();
+            if (empty($params['product'])) {
+                throw new \Exception ('Product can be not empty');
+            }
 
-            return response()->json(['data' => array_shift($result)]);
+            if (empty($params['category'])) {
+                throw new \Exception ('Category can be not empty');
+            }
+
+            $result = $this->recommendations->getWhoViewAlsoView($params);
+
+            return response()->json(['data' => $result]);
         } catch (\Exception $e) {
             throw new StoreResourceFailedException($e->getMessage());
         }

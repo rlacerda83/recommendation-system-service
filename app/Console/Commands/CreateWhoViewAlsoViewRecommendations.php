@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Services\Gremlin\Generic;
+use App\Services\Gremlin\ProductRecommendation\RedisAdapter;
 use Brightzone\GremlinDriver\ServerException;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Cache;
@@ -21,8 +22,6 @@ class CreateWhoViewAlsoViewRecommendations extends Command
         .where(neq('p')).groupCount().by('productId').order(local).by(values, decr).limit(local, %d)";
 
     const QUERY_GET_CATEGORIES_BY_PRODUCT = "g.V().has('productId', %d).out('belong').dedup().values()";
-
-    const CACHE_PREFIX_CATEGORY = 'vav_p_%s_c_%s';
 
     /**
      * The name and signature of the console command.
@@ -92,7 +91,7 @@ class CreateWhoViewAlsoViewRecommendations extends Command
             foreach ($categories as $idCategory) {
                 $recommendations = $this->getRecommendationsByProductAndCategory($idProduct, $idCategory);
                 Cache::forever(
-                    sprintf(self::CACHE_PREFIX_CATEGORY, $idProduct, $idCategory),
+                    sprintf(RedisAdapter::CACHE_PREFIX_CATEGORY, $idProduct, $idCategory),
                     $recommendations
                 );
             }
