@@ -49,5 +49,9 @@ $api->version('v1', ['middleware' => 'api.auth', 'namespace' => 'App\Http\Contro
     $api->post('gremlin/create-index/', 'GremlinController@CreateIndex');
 
     //PRODUCT RECOMMENDATION
-    $api->post('recommendation/view-also-view/', 'RecommendationsController@GetViewAlsoView');
+    // Real time recommendation
+    //$api->post('recommendation/view-also-view/', 'RecommendationsController@GetViewAlsoView');
+
+    $api->get('recommendation/view-also-view/', 'RecommendationsController@GetViewAlsoView');
+    $api->get('recommendation/get-last-view/', 'RecommendationsController@GetLastView');
 });

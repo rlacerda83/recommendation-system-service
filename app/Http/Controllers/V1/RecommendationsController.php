@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\V1;
 
 use App\Services\Gremlin\ProductRecommendation;
+use Carbon\Carbon;
 use Dingo\Api\Exception\StoreResourceFailedException;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Http\Request;
@@ -46,6 +47,16 @@ class RecommendationsController extends BaseController
             $result = $this->recommendations->getWhoViewBought($objectRequest);
 
             return response()->json(['data' => array_shift($result)]);
+        } catch (\Exception $e) {
+            throw new StoreResourceFailedException($e->getMessage());
+        }
+    }
+
+    public function getLastView(Request $request)
+    {
+        try {
+            $now = Carbon::now()->subMinutes(5);
+            return response()->json(['data' => ['lastView' => $now->format('Y-m-d H:i:s')]]);
         } catch (\Exception $e) {
             throw new StoreResourceFailedException($e->getMessage());
         }
