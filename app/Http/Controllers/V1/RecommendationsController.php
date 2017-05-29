@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\V1;
 
+use App\Services\Gremlin\ProductRecommendation\GremlinAdapter;
 use App\Services\Gremlin\ProductRecommendation\RedisAdapter;
 use Carbon\Carbon;
 use Dingo\Api\Exception\StoreResourceFailedException;
@@ -32,11 +33,11 @@ class RecommendationsController extends BaseController
         try {
             $params = $request->all();
             if (empty($params['product'])) {
-                throw new \Exception ('Product can be not empty');
+                throw new \Exception ('Product can not be empty');
             }
 
             if (empty($params['category'])) {
-                throw new \Exception ('Category can be not empty');
+                throw new \Exception ('Category can not be empty');
             }
 
             $result = $this->recommendations->getWhoViewAlsoView($params);
@@ -63,11 +64,16 @@ class RecommendationsController extends BaseController
         }
     }
 
-    public function getLastView(Request $request)
+    /**
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getLastView()
     {
         try {
-            $now = Carbon::now()->subMinutes(5);
-            return response()->json(['data' => ['lastView' => $now->format('Y-m-d H:i:s')]]);
+            $gremlinAdapter = new GremlinAdapter();
+
+            $result = $gremlinAdapter->getLastView();
+            return response()->json(['data' => array_shift($result)]);
         } catch (\Exception $e) {
             throw new StoreResourceFailedException($e->getMessage());
         }

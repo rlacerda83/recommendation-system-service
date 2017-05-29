@@ -29,4 +29,9 @@ class RedisAdapter implements ProductRecommendationInterface
     {
 
     }
+
+    public function getlastView()
+    {
+
+    }
 }

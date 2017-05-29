@@ -10,6 +10,16 @@ class GremlinAdapter extends AbstractGremlin implements ProductRecommendationInt
 {
     const DEFAULT_LIMIT = 5;
 
+    const QUERY_GET_PRODUCTS = "g.V().hasLabel('product').range(%d, %d).values()";
+
+    const QUERY_RECOMMENDATIONS = "g.V().has('productId', %d).as('p').in('view')
+        .out('view').barrier().where(out('belong').has('categoryId', %d)).barrier()
+        .where(neq('p')).groupCount().by('productId').order(local).by(values, decr).limit(local, %d)";
+
+    const QUERY_GET_CATEGORIES_BY_PRODUCT = "g.V().has('productId', %d).out('belong').dedup().values()";
+
+    const QUERY_GET_LAST_VIEW = "g.E().hasLabel('view').order().by('viewDate', Order.decr).limit(1).values()";
+
     public function getType()
     {
         return;
@@ -66,5 +76,14 @@ class GremlinAdapter extends AbstractGremlin implements ProductRecommendationInt
         );
 
         return $query;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastView()
+    {
+        $query = self::QUERY_GET_LAST_VIEW;
+        return $this->executeQuery($query);
     }
 }

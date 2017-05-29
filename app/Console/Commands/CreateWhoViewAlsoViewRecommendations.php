@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Services\Gremlin\Generic;
+use App\Services\Gremlin\ProductRecommendation\GremlinAdapter;
 use App\Services\Gremlin\ProductRecommendation\RedisAdapter;
 use Brightzone\GremlinDriver\ServerException;
 use Illuminate\Console\Command;
@@ -13,15 +14,8 @@ class CreateWhoViewAlsoViewRecommendations extends Command
 
     const LIMIT = 100;
 
+
     const LIMIT_GENERATED_RECOMMENDATIONS = 20;
-
-    const QUERY_GET_PRODUCTS = "g.V().hasLabel('product').range(%d, %d).values()";
-
-    const QUERY_RECOMMENDATIONS = "g.V().has('productId', %d).as('p').in('view')
-        .out('view').barrier().where(out('belong').has('categoryId', %d)).barrier()
-        .where(neq('p')).groupCount().by('productId').order(local).by(values, decr).limit(local, %d)";
-
-    const QUERY_GET_CATEGORIES_BY_PRODUCT = "g.V().has('productId', %d).out('belong').dedup().values()";
 
     /**
      * The name and signature of the console command.
@@ -60,7 +54,7 @@ class CreateWhoViewAlsoViewRecommendations extends Command
 
         do {
             try {
-                $query = sprintf(self::QUERY_GET_PRODUCTS, $offset, $limit);
+                $query = sprintf(GremlinAdapter::QUERY_GET_PRODUCTS, $offset, $limit);
                 $result = $this->gremlin->executeQuery($query);
                 $this->comment(PHP_EOL. 'Processing ' . count($result) . ' products' .PHP_EOL);
 
@@ -105,7 +99,7 @@ class CreateWhoViewAlsoViewRecommendations extends Command
     protected function getCategoriesByProduct($idProduct)
     {
         try {
-            $categoriesQuery = sprintf(self::QUERY_GET_CATEGORIES_BY_PRODUCT, $idProduct);
+            $categoriesQuery = sprintf(GremlinAdapter::QUERY_GET_CATEGORIES_BY_PRODUCT, $idProduct);
             return $this->gremlin->executeQuery($categoriesQuery);
         } catch (ServerException $e) {
             return [];
@@ -119,7 +113,13 @@ class CreateWhoViewAlsoViewRecommendations extends Command
      */
     protected function getRecommendationsByProductAndCategory($idProduct, $idCategory)
     {
-        $query = sprintf(self::QUERY_RECOMMENDATIONS, $idProduct, $idCategory, self::LIMIT_GENERATED_RECOMMENDATIONS);
+        $query = sprintf(
+            GremlinAdapter::QUERY_RECOMMENDATIONS,
+            $idProduct,
+            $idCategory,
+            self::LIMIT_GENERATED_RECOMMENDATIONS
+        );
+
         return $this->gremlin->executeQuery($query);
     }
 }
