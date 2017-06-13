@@ -63,7 +63,7 @@ class CreateWhoViewAlsoViewRecommendations extends Command
                 $offset += self::LIMIT;
             } catch (ServerException $e) {
                 $this->error($e->getMessage() . PHP_EOL);
-                continue;
+                $continue = false;
             }
 
         } while ($continue);
