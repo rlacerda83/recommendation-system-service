@@ -5,13 +5,9 @@ namespace App\Jobs\Recommendations;
 use App\Jobs\Job;
 use App\Services\Gremlin\Generic;
 use App\Services\Gremlin\ProductRecommendation\Processors\WhoViewAlsoViewProcessor;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
 
-class WhoViewAlsoView extends Job implements ShouldQueue
+class WhoViewAlsoView extends Job
 {
-    use InteractsWithQueue, SerializesModels;
 
     /**
      * @var int
