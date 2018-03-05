@@ -37,7 +37,7 @@ class RecommendationsController extends BaseController
             }
 
             if (empty($params['category'])) {
-                throw new \Exception ('Category can not be empty');
+                //throw new \Exception ('Category can not be empty');
             }
 
             $result = $this->recommendations->getWhoViewAlsoView($params);
