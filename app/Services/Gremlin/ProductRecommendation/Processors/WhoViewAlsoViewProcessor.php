@@ -38,7 +38,7 @@ class WhoViewAlsoViewProcessor
             foreach ($categories as $idCategory) {
                 $recommendations = $this->getRecommendationsByProductAndCategory($idProduct, $idCategory);
                 Cache::forever(
-                    sprintf(RedisAdapter::CACHE_PREFIX_CATEGORY, $idProduct, $idCategory),
+                    sprintf(RedisAdapter::CACHE_PREFIX_WHO_VIEW_ALSO_VIEW, $idProduct, $idCategory),
                     $recommendations
                 );
             }

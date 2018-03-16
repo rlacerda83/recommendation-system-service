@@ -8,7 +8,9 @@ use Illuminate\Support\Facades\Cache;
 class RedisAdapter implements ProductRecommendationInterface
 {
 
-    const CACHE_PREFIX_CATEGORY = 'rec_wvav_%s';
+    const CACHE_PREFIX_WHO_VIEW_ALSO_VIEW = 'rec_wvav_%s';
+
+    const CACHE_PREFIX_WHO_VIEW_BOUGHT = 'rec_wvb_%s';
 
     /**
      * @param $params
@@ -16,18 +18,19 @@ class RedisAdapter implements ProductRecommendationInterface
      */
     public function getWhoViewAlsoView($params)
     {
-        $key = $this->getKey($params);
+        $key = $this->getKey(self::CACHE_PREFIX_WHO_VIEW_ALSO_VIEW, $params);
 
         return Cache::get($key);
     }
 
     /**
+     * @param $prefix
      * @param $params
      * @return string
      */
-    public function getKey($params)
+    public function getKey($prefix, $params)
     {
-        $key = sprintf(self::CACHE_PREFIX_CATEGORY, $params['product']);
+        $key = sprintf($prefix, $params['product']);
 
         if (!empty($params['category'])) {
             $key .= '_' . $params['category'];
@@ -37,12 +40,14 @@ class RedisAdapter implements ProductRecommendationInterface
     }
 
     /**
-     * @param $objRequest
+     * @param $params
      * @return mixed
      */
-    public function getWhoViewBought($objRequest)
+    public function getWhoViewBought($params)
     {
+        $key = $this->getKey(self::CACHE_PREFIX_WHO_VIEW_BOUGHT, $params);
 
+        return Cache::get($key);
     }
 
     public function getlastView()

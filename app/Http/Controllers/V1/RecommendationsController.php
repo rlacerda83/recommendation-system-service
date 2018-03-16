@@ -36,10 +36,6 @@ class RecommendationsController extends BaseController
                 throw new \Exception ('Product can not be empty');
             }
 
-            if (empty($params['category'])) {
-                //throw new \Exception ('Category can not be empty');
-            }
-
             $result = $this->recommendations->getWhoViewAlsoView($params);
 
             return response()->json(['data' => $result]);
@@ -55,10 +51,14 @@ class RecommendationsController extends BaseController
     public function getViewBought(Request $request)
     {
         try {
-            $objectRequest = json_decode($request->getContent());
-            $result = $this->recommendations->getWhoViewBought($objectRequest);
+            $params = $request->all();
+            if (empty($params['product'])) {
+                throw new \Exception ('Product can not be empty');
+            }
 
-            return response()->json(['data' => array_shift($result)]);
+            $result = $this->recommendations->getWhoViewBought($params);
+
+            return response()->json(['data' => $result]);
         } catch (\Exception $e) {
             throw new StoreResourceFailedException($e->getMessage());
         }
