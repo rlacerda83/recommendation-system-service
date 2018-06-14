@@ -15,7 +15,7 @@
         "laravel/lumen-framework": "5.3.*",
         "vlucas/phpdotenv": "~1.0",
         "jeremeamia/superclosure": "~2.0",
-        "dingo/api": "@dev",
+        "dingo/api": "2.0.0-alpha1",
         "brightzone/gremlin-php": "*",
         "predis/predis": "^1.1",
         "illuminate/redis": "5.3.*"

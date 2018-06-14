@@ -8,9 +8,9 @@ use Illuminate\Support\Facades\Cache;
 class RedisAdapter implements ProductRecommendationInterface
 {
 
-    const CACHE_PREFIX_WHO_VIEW_ALSO_VIEW = 'rec_wvav_%s';
+    const CACHE_PREFIX_WHO_VIEW_ALSO_VIEW = 'rec_recommendation_wvav_%s';
 
-    const CACHE_PREFIX_WHO_VIEW_BOUGHT = 'rec_wvb_%s';
+    const CACHE_PREFIX_WHO_VIEW_BOUGHT = 'rec_recommendation_wvb_%s';
 
     /**
      * @param $params
