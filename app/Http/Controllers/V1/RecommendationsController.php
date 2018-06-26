@@ -4,7 +4,6 @@ namespace App\Http\Controllers\V1;
 
 use App\Services\Gremlin\ProductRecommendation\GremlinAdapter;
 use App\Services\Gremlin\ProductRecommendation\RedisAdapter;
-use Carbon\Carbon;
 use Dingo\Api\Exception\StoreResourceFailedException;
 use Dingo\Api\Routing\Helpers;
 use Illuminate\Http\Request;
