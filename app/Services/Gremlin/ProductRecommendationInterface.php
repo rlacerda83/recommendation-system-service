@@ -16,4 +16,12 @@ interface ProductRecommendationInterface
      * @return mixed
      */
     public function getWhoViewBought($objRequest);
+
+    /**
+     * @param $objRequest
+     * @return mixed
+     */
+    public function getTopSellerCategory($objRequest);
+
+
 }

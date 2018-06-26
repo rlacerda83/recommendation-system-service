@@ -55,4 +55,5 @@ $api->version('v1', ['middleware' => 'api.auth', 'namespace' => 'App\Http\Contro
     $api->get('recommendation/view-also-view/', 'RecommendationsController@GetViewAlsoView');
     $api->get('recommendation/get-last-view/', 'RecommendationsController@GetLastView');
     $api->get('recommendation/view-bought/', 'RecommendationsController@GetViewBought');
+    $api->get('recommendation/top-seller-category/', 'RecommendationsController@GetTopSellerCategory');
 });

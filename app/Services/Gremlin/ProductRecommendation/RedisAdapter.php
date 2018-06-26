@@ -12,6 +12,8 @@ class RedisAdapter implements ProductRecommendationInterface
 
     const CACHE_PREFIX_WHO_VIEW_BOUGHT = 'rec_recommendation_wvb_%s';
 
+    const CACHE_PREFIX_TOP_SELLER_CATEGORY = 'rec_recommendation_tsc_%s';
+
     /**
      * @param $params
      * @return mixed
@@ -50,8 +52,14 @@ class RedisAdapter implements ProductRecommendationInterface
         return Cache::get($key);
     }
 
-    public function getlastView()
+    /**
+     * @param $params
+     * @return mixed
+     */
+    public function getTopSellerCategory($params)
     {
+        $key = sprintf(self::CACHE_PREFIX_TOP_SELLER_CATEGORY, $params['category']);
 
+        return Cache::get($key);
     }
 }

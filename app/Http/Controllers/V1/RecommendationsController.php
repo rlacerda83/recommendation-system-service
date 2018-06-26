@@ -65,6 +65,26 @@ class RecommendationsController extends BaseController
     }
 
     /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function getTopSellerCategory(Request $request)
+    {
+        try {
+            $params = $request->all();
+            if (empty($params['category'])) {
+                throw new \Exception ('Category can not be empty');
+            }
+
+            $result = $this->recommendations->getTopSellerCategory($params);
+
+            return response()->json(['data' => $result]);
+        } catch (\Exception $e) {
+            throw new StoreResourceFailedException($e->getMessage());
+        }
+    }
+
+    /**
      * @return \Illuminate\Http\JsonResponse
      */
     public function getLastView()

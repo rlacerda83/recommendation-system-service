@@ -86,4 +86,9 @@ class GremlinAdapter extends AbstractGremlin implements ProductRecommendationInt
         $query = self::QUERY_GET_LAST_VIEW;
         return $this->executeQuery($query);
     }
+
+    public function getTopSellerCategory($objRequest)
+    {
+        // TODO: Implement getTopSellerCategory() method.
+    }
 }
